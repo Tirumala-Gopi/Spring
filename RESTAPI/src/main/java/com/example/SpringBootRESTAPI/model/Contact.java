@@ -1,25 +1,30 @@
-package com.example.demo.model;
+package com.example.SpringBootRESTAPI.model;
 
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 @Entity
+
 public class Contact {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "CONTACT_SEQ_GEN")
 	@SequenceGenerator(name = "CONTACT_SEQ_GEN" ,sequenceName="CONTACT_SEQ" )
 	private long id;
+	@Column(name = "First_name")
+	@NotBlank(message = " first name must not be blank")
 	private String firstName;
 	private String lastName;
 	private String middleName;
+	@Pattern(regexp="^[+][0-9][-.]\\b\\d{3}[-.]\\d{3}[-.]\\d{4}\\b",message=" not valid phone number")
 	private String phoneNUmber;
-	public Contact() {
-		super();
-	}
 	public Contact(long id, String firstName, String lastName, String middleName, String phoneNUmber) {
 		super();
 		this.id = id;
@@ -28,13 +33,8 @@ public class Contact {
 		this.middleName = middleName;
 		this.phoneNUmber = phoneNUmber;
 	}
-	
-	public Contact(String firstName, String lastName, String middleName, String phoneNUmber) {
+	public Contact() {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.middleName = middleName;
-		this.phoneNUmber = phoneNUmber;
 	}
 	public long getId() {
 		return id;
@@ -67,6 +67,11 @@ public class Contact {
 		this.phoneNUmber = phoneNUmber;
 	}
 	@Override
+	public String toString() {
+		return "Contact [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName="
+				+ middleName + ", phoneNUmber=" + phoneNUmber + "]";
+	}
+	@Override
 	public int hashCode() {
 		return Objects.hash(firstName, id, lastName, middleName, phoneNUmber);
 	}
@@ -82,11 +87,13 @@ public class Contact {
 		return Objects.equals(firstName, other.firstName) && id == other.id && Objects.equals(lastName, other.lastName)
 				&& Objects.equals(middleName, other.middleName) && Objects.equals(phoneNUmber, other.phoneNUmber);
 	}
-	@Override
-	public String toString() {
-		return "Contact [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName="
-				+ middleName + ", phoneNUmber=" + phoneNUmber + "]";
+	public Contact(String firstName, String lastName, String middleName, String phoneNUmber) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.middleName = middleName;
+		this.phoneNUmber = phoneNUmber;
 	}
 	
-
+	
 }

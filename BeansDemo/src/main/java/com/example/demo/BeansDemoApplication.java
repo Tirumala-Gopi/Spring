@@ -25,23 +25,25 @@ public class BeansDemoApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BeansDemoApplication.class, args);
 	}
-
+	
 
 	@Override
 	public void run(String... args) throws Exception {
-		ContactService conatctService=ctx.getBean(ContactService.class);
-		Contact johnContact=new Contact(1,"john","Ambraham","john","123456789");
-		Contact johnContact1=new Contact(2,"john","Ambraham","john","123456789");
-		Optional<Contact> created=conatctService.createContact(johnContact);
-		Optional<Contact> created1=conatctService.createContact(johnContact1);
+		ContactService contactService=ctx.getBean(ContactService.class);
+		Contact johnContact=new Contact("john","Ambraham","john","123456789");
+		Contact johnContact1=new Contact("john","Ambraham","john","123456789");
+		Optional<Contact> created=contactService.createContact(johnContact);
+		Optional<Contact> created1=contactService.createContact(johnContact1);
 		
-		if(created1.isPresent()) {
-			System.out.println(created1);
-		}
-		
+//		if(created1.isPresent()) {
+//			System.out.println(created1);
+//		}
+//		
 		if(created.isPresent()) {
 			System.out.println(created);
 		}
+		
+		System.out.println("All contacts :"+contactService.getAllContacts());
 	}
 
 }

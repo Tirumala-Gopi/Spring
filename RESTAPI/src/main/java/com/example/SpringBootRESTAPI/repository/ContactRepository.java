@@ -1,8 +1,8 @@
-package com.example.demo.repository;
+package com.example.SpringBootRESTAPI.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.model.Contact;
+import com.example.SpringBootRESTAPI.model.Contact;
 
 public interface ContactRepository extends JpaRepository<Contact, Long> {
 
