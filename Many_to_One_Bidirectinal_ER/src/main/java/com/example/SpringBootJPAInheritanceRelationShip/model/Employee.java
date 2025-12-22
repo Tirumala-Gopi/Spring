@@ -1,0 +1,139 @@
+package com.example.SpringBootJPAInheritanceRelationShip.model;
+
+import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+@Table(name="Employee_joined")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+property= "id")
+public class Employee {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "EMPLOYEE_SEQ_GEN")
+	@SequenceGenerator(name = "EMPLOYEE_SEQ_GEN" ,sequenceName="EMPLOYEE_SEQ" )
+	private int id;
+	private String empName;
+	private double salary;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="FK_PAYROLL_NO")
+	//@JsonManagedReference
+	private PayRoll payRoll;
+	
+	@ManyToOne
+	@JoinColumn(name="FK_DEPT_NO")
+	@JsonBackReference
+	private Department department;
+	
+	@ManyToMany
+	@JoinTable(name="Employee_Skill",
+	joinColumns= @JoinColumn(name = "FK_EMP_ID"),
+	inverseJoinColumns=@JoinColumn(name="FK_SKILL_ID"))
+	private List<Skill> skills;
+	
+	
+	public List<Skill> getSkills() {
+		return skills;
+	}
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
+	}
+	public Department getDepartment() {
+		return department;
+	}
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+	public Employee(int id, String empName, double salary) {
+		super();
+		this.id = id;
+		this.empName = empName;
+		this.salary = salary;
+	}
+	public Employee(String empName, double salary) {
+		super();
+		this.empName = empName;
+		this.salary = salary;
+	}
+	
+	
+	public Employee(String empName, double salary, PayRoll payRoll) {
+		super();
+		this.empName = empName;
+		this.salary = salary;
+		this.payRoll = payRoll;
+	}
+	
+	public PayRoll getPayRoll() {
+		return payRoll;
+	}
+	public void setPayRoll(PayRoll payRoll) {
+		this.payRoll = payRoll;
+	}
+	public Employee() {
+		super();
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getEmpName() {
+		return empName;
+	}
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+	public double getSalary() {
+		return salary;
+	}
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", empName=" + empName + ", salary=" + salary + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(empName, id, salary);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		return Objects.equals(empName, other.empName) && id == other.id
+				&& Double.doubleToLongBits(salary) == Double.doubleToLongBits(other.salary);
+	}
+	
+	
+	
+	
+}
