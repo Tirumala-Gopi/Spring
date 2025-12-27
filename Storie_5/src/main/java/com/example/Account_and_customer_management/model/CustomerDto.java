@@ -11,8 +11,8 @@ public class CustomerDto {
 	private String customerType;
 
 	private String accountType;
-	private double interestRate;
-	private int nextCheckNumber;
+	private Double interestRate;
+	private Integer nextCheckNumber;
 	private double balance;
 	
 	
@@ -24,7 +24,7 @@ public class CustomerDto {
 		this.balance = balance;
 	}
 	public CustomerDto(String name, String streetNumber, String postalCode, String customerType, String accountType,
-			double interestRate, int nextCheckNumber, double balance) {
+			Double interestRate, Integer nextCheckNumber, double balance) {
 		super();
 		this.name = name;
 		this.streetNumber = streetNumber;
@@ -69,16 +69,16 @@ public class CustomerDto {
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
-	public double getInterestRate() {
+	public Double getInterestRate() {
 		return interestRate;
 	}
-	public void setInterestRate(double interestRate) {
+	public void setInterestRate(Double interestRate) {
 		this.interestRate = interestRate;
 	}
-	public int getNextCheckNumber() {
+	public Integer getNextCheckNumber() {
 		return nextCheckNumber;
 	}
-	public void setNextCheckNumber(int nextCheckNumber) {
+	public void setNextCheckNumber(Integer nextCheckNumber) {
 		this.nextCheckNumber = nextCheckNumber;
 	}
 	@Override

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Account_and_customer_management.model.Account;
+import com.example.Account_and_customer_management.model.AccountDto;
 import com.example.Account_and_customer_management.model.Customer;
 import com.example.Account_and_customer_management.model.CustomerDto;
 import com.example.Account_and_customer_management.service.CustomerService;
@@ -40,12 +42,31 @@ public class CustomerController {
 	public Customer findCustomer(@PathVariable long id) {
 		return custService.findCustomer(id);
 	}
-	
+
 	@GetMapping("/person")
-	public ResponseEntity<List<Customer>> findAllPersons(){
+	public ResponseEntity<List<Customer>> findAllPersons() {
+
+		return ResponseEntity.ok(custService.findAllPersons());
+
+	}
+
+	@PostMapping("/{id}")
+	public void addAccount(@PathVariable long id, @RequestBody AccountDto account) {
+
+		custService.addAccount(account, id);
+
+	}
+
+	@GetMapping("/accounts")
+	public List<Account> getAllAccounts() {
+		return custService.getAllAccounts();
+	}
 	
-	return ResponseEntity.ok(custService.findAllPersons());
-	
-			}
+	@GetMapping("/toronto")
+	public ResponseEntity<List<Customer>> findAllCustomers() {
+
+		return ResponseEntity.ok(custService.findAllCustomers());
+
+	}
 
 }

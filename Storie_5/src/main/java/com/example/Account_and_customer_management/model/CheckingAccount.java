@@ -7,22 +7,27 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class CheckingAccount extends Account {
 
-	@NotNull
+	
 	@Column(name = "NEXT_CHECK_NUMBER")
 	private int nextCheckNumber;
 
 	public CheckingAccount(@NotNull(message = " balance must not be null") double balance, Customer customer,
-			@NotNull int nextCheckNumber) {
+			 int nextCheckNumber) {
 		super(balance, customer);
 		this.nextCheckNumber = nextCheckNumber;
 	}
 
-	public CheckingAccount(@NotNull int nextCheckNumber) {
+	public CheckingAccount(int nextCheckNumber) {
 		super();
 		this.nextCheckNumber = nextCheckNumber;
 	}
+	
 
 	
+
+	public CheckingAccount() {
+		super();
+	}
 
 	public int getNextCheckNumber() {
 		return nextCheckNumber;

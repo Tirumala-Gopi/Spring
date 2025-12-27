@@ -67,6 +67,7 @@ public class Customer {
 
 	public Customer() {
 		super();
+		this.accounts = new ArrayList();
 	}
 
 	public long getCustomerId() {
@@ -101,9 +102,6 @@ public class Customer {
 	}
 
 
-	public void addAccount(Account account) {
-		System.out.println("im here" + account);
-		this.accounts.add(account);
-	}
+
 	
 }

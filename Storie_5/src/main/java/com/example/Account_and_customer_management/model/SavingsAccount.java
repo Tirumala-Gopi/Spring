@@ -22,9 +22,16 @@ public class SavingsAccount extends Account {
 		super();
 		this.interestRate = interestRate;
 	}
+	
+	
 
 
 	
+
+
+	public SavingsAccount() {
+		super();
+	}
 
 
 	public double getInterestRate() {

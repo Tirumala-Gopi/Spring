@@ -9,6 +9,12 @@ public class Person extends Customer {
 	public Person(@NotBlank String name, Address address) {
 		super(name, address);
 	}
+
+	public Person() {
+		super();
+	}
+	
+	
 	
 
 }

@@ -13,4 +13,8 @@ public interface CustomerRepo extends JpaRepository<Customer, Long> {
 	@Query("select p from Person p")
 	List<Customer> findAllPersons();
 
+	
+	@Query("SELECT c FROM Customer c JOIN c.address a WHERE a.city = 'Toronto'")
+	List<Customer> findAllCustomers();
+
 }

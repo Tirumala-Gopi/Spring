@@ -97,7 +97,7 @@ public class Address {
 	@Override
 	public String toString() {
 		return "Address [addressId=" + addressId + ", streetNumber=" + streetNumber + ", postalCode=" + postalCode
-				+ ", city=" + city + ", province=" + province + ", customer=" + customer + "]";
+				+ ", city=" + city + ", province=" + province + ", customer=" + customer.getCustomerId() + "]";
 	}
 
 }

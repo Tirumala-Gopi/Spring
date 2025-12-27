@@ -2,10 +2,12 @@ package com.example.Account_and_customer_management.service;
 
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.Account_and_customer_management.model.Account;
+import com.example.Account_and_customer_management.model.AccountDto;
 import com.example.Account_and_customer_management.model.Address;
 import com.example.Account_and_customer_management.model.CheckingAccount;
 import com.example.Account_and_customer_management.model.Company;
@@ -14,18 +16,26 @@ import com.example.Account_and_customer_management.model.CustomerDto;
 import com.example.Account_and_customer_management.model.GeoResponseDto;
 import com.example.Account_and_customer_management.model.Person;
 import com.example.Account_and_customer_management.model.SavingsAccount;
+import com.example.Account_and_customer_management.repository.AccountRepository;
 import com.example.Account_and_customer_management.repository.CustomerRepo;
 
 @Service
 public class CustomerService {
 	private final CustomerRepo custRepo;
 	private final WebClient webClient;
+	private final AccountRepository accountRepo;
 
-	public CustomerService(CustomerRepo custRepo, WebClient webClient) {
+	
+
+	public CustomerService(CustomerRepo custRepo, WebClient webClient, AccountRepository accountRepo) {
 		super();
 		this.custRepo = custRepo;
 		this.webClient = webClient;
+		this.accountRepo = accountRepo;
 	}
+
+
+
 
 	public Customer addCustomer(CustomerDto dto) {
 
@@ -52,14 +62,17 @@ public class CustomerService {
 		Account account=null;
 			if(dto.getAccountType().equals("savings")) {
 				account=new SavingsAccount(dto.getInterestRate());
+				
+				
 			}
 			else if(dto.getAccountType().equals("checkings")) {
 				account=new CheckingAccount(dto.getNextCheckNumber());
 			}
 		
-		
+		account.setBalance(dto.getBalance());
+		account.setCustomer(customer);
 		customer.setName(dto.getName());
-		
+		address.setCustomer(customer);
 
 	
 		if (geoResponse != null) {
@@ -69,9 +82,31 @@ public class CustomerService {
 
 		
 		customer.setAddress(address);
-		customer.addAccount(account);
-System.out.println(customer);
+		customer.getAccounts().add(account);
+		
+		
+		//System.out.println(customer);
 		return custRepo.save(customer);
+	}
+	
+	public void addAccount(AccountDto accDto,long id) {
+		
+		Account account=null;
+		if(accDto.getAccountType().equals("savings")) {
+			account=new SavingsAccount(accDto.getInterestRate());
+			
+			
+		}
+		else if(accDto.getAccountType().equals("checkings")) {
+			account=new CheckingAccount(accDto.getNextCheckNumber());
+		}
+		account.setBalance(accDto.getBalance());
+		//System.out.println(account);
+		custRepo.findById(id).get().getAccounts().add(account);
+		account.setCustomer(custRepo.findById(id).get());
+		//custRepo.save(custRepo.findById(id).get());
+		accountRepo.save(account);
+		
 	}
 	
 	
@@ -90,6 +125,19 @@ System.out.println(customer);
 	public List<Customer> findAllPersons() {
 		
 		return custRepo.findAllPersons();
+	}
+
+	public List<Account> getAllAccounts() {
+		// TODO Auto-generated method stub
+		return accountRepo.findAll();
+	}
+
+
+
+
+	public List<Customer> findAllCustomers() {
+		
+		return custRepo.findAllCustomers();
 	}
 
 }
